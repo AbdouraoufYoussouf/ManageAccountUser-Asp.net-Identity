@@ -1,0 +1,51 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  
+  
+  justify-content:center;
+}
+.containt{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+  
+}
+.bg {
+    width:1300px;
+    margin:0 20px;
+    height: auto;
+}
+.profil-picture{
+    width : 270px;
+    height : 250px;
+    object-fit :cover;
+}
+.profil {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 30px
+}
+.file-input {
+    border: 0px !important;
+    padding: 0px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
