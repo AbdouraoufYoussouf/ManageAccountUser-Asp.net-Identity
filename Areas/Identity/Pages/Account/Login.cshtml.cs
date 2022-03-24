@@ -130,7 +130,7 @@ namespace LoginRegisterUser.Areas.Identity.Pages.Account
             {
                 // login with email or username 
                 var userName = Input.Email;
-                if (IsValidEmail(Input.Email))
+                if (IsValidEmail(userName))
                 {
                     var user = await _userManager.FindByEmailAsync(Input.Email);
                     if (user != null)
@@ -142,7 +142,7 @@ namespace LoginRegisterUser.Areas.Identity.Pages.Account
                 // Pour permettre aux échecs de mot de passe de déclencher le verrouillage du compte, définissez lockoutOnFailure : true
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                
                 if (result.Succeeded)
                 {

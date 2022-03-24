@@ -22,6 +22,40 @@ namespace LoginRegisterUser.Data
             builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins", "security");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RolesClaims", "security");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens", "security");
+
+            /// ajout des roles ce qui n'est pas une bonne idéé de les ajouter par ici car achaque migration ef va ajouter ça encore ce qui n'est pas pratique
+
+            //builder.Entity<IdentityRole>()
+            //    .HasData(
+            //        new IdentityRole
+            //        {
+            //            Id = Guid.NewGuid().ToString(),
+            //            Name = "Admin",
+            //            NormalizedName = "Admin".ToUpper(),
+            //            ConcurrencyStamp = Guid.NewGuid().ToString()
+            //        },
+            //        new IdentityRole
+            //        {
+            //            Id = Guid.NewGuid().ToString(),
+            //            Name = "User",
+            //            NormalizedName = "User".ToUpper(),
+            //            ConcurrencyStamp = Guid.NewGuid().ToString()
+            //        },
+            //        new IdentityRole
+            //        {
+            //            Id = Guid.NewGuid().ToString(),
+            //            Name = "SuperAdmin",
+            //            NormalizedName = "SuperAdmin".ToUpper(),
+            //            ConcurrencyStamp = Guid.NewGuid().ToString()
+            //        },
+            //        new IdentityRole
+            //        {
+            //            Id = Guid.NewGuid().ToString(),
+            //            Name = "Manager",
+            //            NormalizedName = "Manager".ToUpper(),
+            //            ConcurrencyStamp = Guid.NewGuid().ToString()
+            //        }
+            //    );
         }
     }
 }
