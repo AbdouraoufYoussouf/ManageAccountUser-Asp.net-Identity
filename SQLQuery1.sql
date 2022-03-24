@@ -1,0 +1,2 @@
+﻿--INSERT INTO [security].[UserRoles] (UserId , RoleId) SELECT '8eb91b93-08ee-46f9-ad09-c1ec5791d629', Id FROM [security].[Roles];
+DELETE FROM [security].[UserRoles] WHERE UserId = '8eb91b93-08ee-46f9-ad09-c1ec5791d629'
