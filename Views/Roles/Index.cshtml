@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<IdentityRole>
 
-<partial name="_AddRole" model="new RoleAddViewModel()"></partial>
 <h1>Role Manager</h1>
+<partial name="_AddRole" model="new RoleAddViewModel()"></partial>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Id</th>
             <th>Role</th>
+            <th>Options</th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +16,10 @@
             <tr>
                 <td>@role.Id</td>
                 <td>@role.Name</td>
+                <td>
+                    <a class="btn btn-primary">Edit</a> 
+                    <a class="btn btn-danger">Delete</a>
+                </td>
             </tr>
         }
     </tbody>

@@ -70,7 +70,7 @@ namespace LoginRegisterUser.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [Display(Name ="Email / UserName")]
+            [Display(Name ="Email")]
             public string Email { get; set; }
 
             /// <summary>
@@ -107,18 +107,18 @@ namespace LoginRegisterUser.Areas.Identity.Pages.Account
         }
 
 
-        public bool IsValidEmail(string emailaddress)
-        {
-            try
-            {
-                MailAddress m = new MailAddress(emailaddress);
-                return true;
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
-        }
+        // public bool IsValidEmail(string emailaddress)
+        // {
+        //     try
+        //     {
+        //         MailAddress m = new MailAddress(emailaddress);
+        //         return true;
+        //     }
+        //     catch (FormatException)
+        //     {
+        //         return false;
+        //     }
+        // }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
@@ -129,20 +129,21 @@ namespace LoginRegisterUser.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 // login with email or username 
-                var userName = Input.Email;
-                if (IsValidEmail(userName))
-                {
-                    var user = await _userManager.FindByEmailAsync(Input.Email);
-                    if (user != null)
-                    {
-                        userName = user.UserName;
-                    }
-                }
+                // var userName = Input.Email;
+                // if (IsValidEmail(userName))
+                // {
+                //     var user = await _userManager.FindByEmailAsync(Input.Email);
+                //     if (user != null)
+                //     {
+                //         userName = user.UserName;
+                //     }
+                // }
                 //Cela ne compte pas les échecs de connexion pour le verrouillage du compte
                 // Pour permettre aux échecs de mot de passe de déclencher le verrouillage du compte, définissez lockoutOnFailure : true
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+               
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                
                 if (result.Succeeded)
                 {

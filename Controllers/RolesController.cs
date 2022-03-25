@@ -36,5 +36,13 @@ namespace LoginRegisterUser.Controllers
             await _roleManager.CreateAsync(new IdentityRole(model.Name));
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteRole(string RoleName){
+            var role = await _roleManager.FindByNameAsync(RoleName);
+            var result = await _roleManager.DeleteAsync(role);
+            
+            return View();
+        }
     }
 }
