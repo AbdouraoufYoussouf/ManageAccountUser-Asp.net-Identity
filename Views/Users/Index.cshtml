@@ -13,7 +13,7 @@
             <th>Email</th>
             @* <th>UserName</th> *@
             <th>Roles</th>
-            <th>Action</th>
+            <th class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -25,11 +25,37 @@
             <td>@user.Email</td>
             @* <td>@user.UserName</td> *@
             <td>@string.Join(" , ", user.Roles.ToList())</td>
-            <td>
-                <a class="btn btn-primary" asp-controller="Users" asp-action="ManageRole" asp-route-userId="@user.Id">Manage Roles</a>
-                <a class="btn btn-success" asp-controller="Users" asp-action="EditUser" asp-route-userId="@user.Id">Edit</a>
+            <td class="buttons">
+                <div id="deleteSpan_@user.Id" style="display: flex">
+                    <a class="btn btn-primary" asp-controller="Users" asp-action="ManageRole" asp-route-userId="@user.Id">Roles</a>
+                    
+                    <a class="btn bg-warning ms-2 me-2" asp-controller="Users" asp-action="EditUser" asp-route-userId="@user.Id"><i class="fa-regular fa-pen-to-square"></i></a>
+                    <span >
+                        <a href="#" class="btn btn-danger" 
+                            onclick="confirmDeleteUser('@user.Id',true)"
+                            ><i class="fa-solid fa-trash-can"></i></a>
+                    </span>
+                </div>
+                <form method="post" asp-action="DeleteUser" asp-route-userId="@user.Id" >
+
+                     <span id="confirmDeleteSpan_@user.Id" class="deleteconfirm ">
+                        <span class="text-danger h6">Are you sure you want to delete ??</span>
+
+                        <button type="submit" class="btn btn-sm btn-danger oui" >Yes</button>
+                        <a href="#" class="btn btn-sm btn-primary non"
+                            onclick="confirmDeleteUser('@user.Id',false)">No
+                        </a>
+                     
+                    </span> 
+                
+                </form>
             </td>
         </tr>
         }
     </tbody>
 </table>
+
+
+@section Scripts{
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}

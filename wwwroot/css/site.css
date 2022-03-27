@@ -55,3 +55,24 @@ body {
     padding-top: 10px;
     padding-bottom: 30px;
 }
+.confirm{
+ 
+ 
+}
+.non,.oui{
+  margin-left: 5px;
+  margin-top: -5px;
+}
+.deleteconfirm{
+  background-color: aqua;
+  margin:15px 0px;
+  padding: 10px;
+  
+  border-radius: 5px;
+  display:none; 
+}
+.buttons{
+  
+  display: flex;
+  justify-content: end;
+}

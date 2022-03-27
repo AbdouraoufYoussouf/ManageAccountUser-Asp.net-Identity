@@ -19,12 +19,14 @@
            <input type="hidden" asp-for="@Model.Roles[i].RoleName"/>
             <label class="form-check-label">
                 @{
-                    if(Model.Roles[i].RoleName.Equals("SuperAdmin") && Model.Roles[i].IsSelected){
+                    if(@Model.Roles[i].RoleName.Equals("SuperAdmin")  && @Model.LastName.Equals("Super Admin")){
                     <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" disabled>
                     }else{
                         <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" >
                     }  
                 }
+                @* <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" > *@
+
                 
                 @Model.Roles[i].RoleName
             </label>
