@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace LoginRegisterUser.Controllers
 {
     [Authorize]
+    [Authorize(Roles ="Admin,SuperAdmin")]
     public class UsersController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -21,13 +22,16 @@ namespace LoginRegisterUser.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userManager.Users
+            // .Where(user=>user.LastName!="Super Admin")
+            .ToListAsync();
             var userViewModel = new List<UserViewModel>();
             foreach (AppUser user in users)
             {
                 var viwModel = new UserViewModel();
                 viwModel.Id = user.Id;
                 viwModel.Email = user.Email;
+                viwModel.UserName = user.UserName;
                 viwModel.FirstName = user.FirstName;
                 viwModel.LastName = user.LastName;
                 viwModel.Roles = await GetUserRoles(user);
@@ -51,6 +55,7 @@ namespace LoginRegisterUser.Controllers
                 return NotFound();
             }
             var roles = await _roleManager.Roles.ToListAsync();
+           
             var viewModel = new UserRolesViewModel
             {
                 UserId = user.Id,
@@ -60,6 +65,7 @@ namespace LoginRegisterUser.Controllers
                 {
                      RoleId = role.Id,
                      RoleName = role.Name,
+                     
                      IsSelected = _userManager.IsInRoleAsync(user,role.Name).Result
                 }).ToList()
             };
@@ -74,16 +80,108 @@ namespace LoginRegisterUser.Controllers
             if(user == null)
                 return NotFound();
             var userRoles = await _userManager.GetRolesAsync(user);
-
             foreach (var role in model.Roles)
             {
-                if(userRoles.Any(r => r == role.RoleName) && !role.IsSelected)
-                {   await _userManager.RemoveFromRoleAsync(user, role.RoleName); }
+                if( !role.IsSelected && role.Equals("SuperAdmin"))
+                {   
+                    await _userManager.RemoveFromRoleAsync(user, role.RoleName); 
+                }
 
                 if(!userRoles.Any(r => r == role.RoleName) && role.IsSelected)
                 {   await _userManager.AddToRoleAsync(user, role.RoleName); }   
             }
             return RedirectToAction(nameof(Index));
         }
+
+        // Add NEw USer
+
+        public async Task<IActionResult> AddUser()
+        {
+             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddUser(AddUserViewModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = new AppUser
+                 {
+                Email = model.Email,
+                UserName = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+            };
+
+            if(await _userManager.FindByEmailAsync(model.Email) != null)
+                {
+                    ModelState.AddModelError("Email", "Email is already exist");
+                    return View(model);
+                }
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if(result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+                return RedirectToAction("Index","Users");
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+            return View(model);
+            }
+        }
+
+        //Edit User
+
+        public async Task<IActionResult> EditUser(string UserId)
+        {
+            var user = await _userManager.FindByIdAsync(UserId);
+
+            var viewModel = new EditUserViewModel{
+                LastName = user.LastName,
+                FirstName = user.FirstName,
+                Email = user.Email,
+                UserName = user.UserName,
+                Id = user.Id
+            };
+
+            return View(viewModel);
+        }
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUser(EditUserViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.Id);
+                
+                if(user.Email.Equals("") || (user.Email.Equals(model.Email)))
+                {
+                    ModelState.AddModelError("Email",$"This {model.Email} is already assigned another User");
+                }
+
+                user.Email = model.Email;
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.UserName = model.UserName;
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if(result.Succeeded){
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+            return View(model);
+        }
+
+
     }
 }

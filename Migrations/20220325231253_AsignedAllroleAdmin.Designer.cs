@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoginRegisterUser.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220324114445_AddSuperAdmin")]
-    partial class AddSuperAdmin
+    [Migration("20220325231253_AsignedAllroleAdmin")]
+    partial class AsignedAllroleAdmin
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

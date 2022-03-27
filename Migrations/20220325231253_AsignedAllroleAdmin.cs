@@ -4,7 +4,7 @@
 
 namespace LoginRegisterUser.Migrations
 {
-    public partial class AssingAllRoleSuperAdmin : Migration
+    public partial class AsignedAllroleAdmin : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

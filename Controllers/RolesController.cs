@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LoginRegisterUser.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin,SuperAdmin")]
+    //[Authorize(Roles ="Manager")]
     public class RolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

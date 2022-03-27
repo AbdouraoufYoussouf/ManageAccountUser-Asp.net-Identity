@@ -4,7 +4,7 @@
 
 namespace LoginRegisterUser.Migrations
 {
-    public partial class AddSuperAdmin : Migration
+    public partial class AddAdmin : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

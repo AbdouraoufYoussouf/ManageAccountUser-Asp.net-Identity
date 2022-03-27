@@ -2,26 +2,35 @@
 
 @{
     ViewData["Title"] = "Manage Roles";
+    var desa = false;
 }
 
 <form method="post" asp-action="ManageRole">
     <div class="card mt-4">
-        <h2>@Model.UserName </h2>
-        <h2>@Model.LastName</h2>
+        <h2>@Model.UserName @Model.LastName</h2>
         Add / Remove Roles
     </div>
     <div class="card-body">
         <input type="hidden" asp-for="UserId"/>
+
         @for (int i = 0; i < @Model.Roles.Count; i++)
         {
        <div class="form-check-inline">
            <input type="hidden" asp-for="@Model.Roles[i].RoleName"/>
             <label class="form-check-label">
-                <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" >
+                @{
+                    if(Model.Roles[i].RoleName.Equals("SuperAdmin") && Model.Roles[i].IsSelected){
+                    <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" disabled>
+                    }else{
+                        <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" >
+                    }  
+                }
+                
                 @Model.Roles[i].RoleName
             </label>
         </div>
         }
+
         <div asp-validation-summary="All" ></div>
 
     </div>
